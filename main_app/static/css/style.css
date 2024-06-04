@@ -12,3 +12,15 @@ footer.page-footer {
   padding-top: 0;
   text-align: right;
 }
+
+.submit-link {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+button.submit-link:focus {
+  background-color: transparent;
+  outline: none;
+}
