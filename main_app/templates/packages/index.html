@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Package List</h1>
+
+{% for package in packages %}
+  <a href="#">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ package.name }}</span>
+        <p>Description: {{ package.description|linebreaks }}</p>
+        <p>Vendor: {{ package.get_vendor_display }}</p>
+        {% if package.available_tickets > 0 %}
+          <p>Available Tickets: {{ package.available_tickets }}</p>
+        {% else %}
+          <p style="color: red">Sold Out</p>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+{% endfor %}
+
+{% endblock %}
