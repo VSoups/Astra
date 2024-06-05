@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Package, DESTINATIONS
-
+import random
 
 # Create your views here.
 
 
 def home(request):
-    return render(request, 'home.html', {'destinations': DESTINATIONS})
+    experiences = Package.objects.all().values_list('experiences', flat=True)[0:5]
+    return render(request, 'home.html', {'destinations': DESTINATIONS, 'experiences': experiences})
 
 def about(request): 
     return render(request, 'about.html')
