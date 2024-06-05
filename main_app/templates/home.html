@@ -1,6 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Home</h1>
+<h1>Astra</h1>
+
+<section class="destination">
+    <h4>Popular Destinations</h4>
+    <ul>
+        {% for dest in destinations %}
+            <li><a href="{% url 'index' %}?destination={{ dest.0 }}">{{ dest.1 }}</a></li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section class="experiences">
+    <h4>Popular Experiences</h4>
+    <ul>
+        
+    </ul>
+</section>
 
 {% endblock %}
