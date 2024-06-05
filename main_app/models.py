@@ -12,9 +12,11 @@ VENDORS = (
 )
 
 DESTINATIONS = (
-    ('V', 'Virgin Galactic'),
-    ('S', 'SpaceX'),
-    ('B', 'Blue Origin'),
+    ('Mo', 'Moon'),
+    ('Ma', 'Mars'),
+    ('Pl', 'Pluto'),
+    ('Is', 'Internation Space Station'),
+    ('Ne', 'Neptune'),
 )
 
 
@@ -22,7 +24,7 @@ class Package(models.Model):
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)   # volume/bulk discount here
     destination = models.CharField(
-        max_length=1, choices=DESTINATIONS, default=[0][0])
+        max_length=2, choices=DESTINATIONS, default=[0][0])
     experiences = models.TextField(max_length=1000)
     # package <-> experience
     vendor = models.CharField(max_length=1, choices=VENDORS, default=[0][0])
