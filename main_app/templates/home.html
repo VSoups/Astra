@@ -15,7 +15,9 @@
 <section class="experiences">
     <h4>Popular Experiences</h4>
     <ul>
-        
+        {% for exp in experiences %}
+            <li><a href="{% url 'index' %}?experience={{ exp }}">{{ exp }}</a></li>
+        {% endfor %}
     </ul>
 </section>
 
