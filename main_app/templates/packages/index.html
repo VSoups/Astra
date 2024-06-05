@@ -8,10 +8,11 @@
     <div class="card">
       <div class="card-content">
         <span class="card-title">{{ package.name }}</span>
-        <p>Description: {{ package.description|linebreaks }}</p>
+        <p>Destination: {{ package.get_destination_display }}</p>
+        <p>Experiences: {{ package.experiences|linebreaks }}</p>
         <p>Vendor: {{ package.get_vendor_display }}</p>
-        {% if package.available_tickets > 0 %}
-          <p>Available Tickets: {{ package.available_tickets }}</p>
+        {% if package.max_tickets > 0 %}
+          <p>Available Tickets: {{ package.max_tickets }}</p>
         {% else %}
           <p style="color: red">Sold Out</p>
         {% endif %}

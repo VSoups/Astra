@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from .models import Package
+from .models import Package, DESTINATIONS
 
 
 # Create your views here.
 
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'destinations': DESTINATIONS})
 
 def about(request): 
     return render(request, 'about.html')
@@ -28,7 +28,12 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 def packages_index(request):
-    packages = Package.objects.all()
+    dest_query = request.GET.get('destination')
+    packages = Package.objects.filter(destination__icontains=dest_query) if dest_query else Package.objects.all()
+    exp_query = request.GET.get('experience')
+    packages = packages.filter(experiences__icontains=exp_query) if exp_query else packages
+    
+    # packages = Package.objects.all()
     return render(request, 'packages/index.html', {
         'packages': packages
     })
