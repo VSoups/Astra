@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from .models import Package, DESTINATIONS
+from .models import Package, DESTINATIONS, Ticket
+from django.views.generic.edit import CreateView
+from .forms import TicketForm
 import random
 
 # Create your views here.
@@ -43,7 +45,6 @@ def packages_index(request):
 def package_detail(request, pkg_id):
     package = Package.objects.get(id=pkg_id)
     date = request.GET.get('date')
-    # if date calculate tickets available
     if date:
        num_avail_tickets = package.max_tickets - package.ticket_set.count()
     else:
@@ -56,3 +57,14 @@ def package_detail(request, pkg_id):
        'num_avail_tickets': num_avail_tickets,
        'qty_range': qty_range,
     })
+
+def add_ticket(request, pkg_id):
+  # amt tickets purchased - from max tickets avail from pkg association.
+  form = TicketForm(request.POST)
+  if form.is_valid():
+    new_ticket = form.save(commit=False)
+    new_ticket.package_id = pkg_id
+    new_ticket.user_id = request.User
+    new_ticket.save() 
+    print(new_ticket)
+  return redirect('home')

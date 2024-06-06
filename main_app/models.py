@@ -22,6 +22,7 @@ DESTINATIONS = (
 
 class Package(models.Model):
     name = models.CharField(max_length=100)
+    # date = models.DateField('Departure Date')
     price = models.DecimalField(max_digits=10, decimal_places=2)   # volume/bulk discount here
     destination = models.CharField(
         max_length=2, choices=DESTINATIONS, default=[0][0])
@@ -47,8 +48,6 @@ class Package(models.Model):
 
 
 class Ticket(models.Model):
-    # individual discounted price
-    price = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField('Departure Date')
     passenger = models.ForeignKey(User, on_delete=models.CASCADE)
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
