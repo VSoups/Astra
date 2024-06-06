@@ -39,3 +39,9 @@ def packages_index(request):
     return render(request, 'packages/index.html', {
         'packages': packages
     })
+
+def package_detail(request, pkg_id):
+    package = Package.objects.get(id=pkg_id)
+    return render(request, 'packages/detail.html', {
+       'package': package
+    })
