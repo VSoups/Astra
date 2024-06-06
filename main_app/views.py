@@ -42,6 +42,17 @@ def packages_index(request):
 
 def package_detail(request, pkg_id):
     package = Package.objects.get(id=pkg_id)
+    date = request.GET.get('date')
+    # if date calculate tickets available
+    if date:
+       num_avail_tickets = package.max_tickets - package.ticket_set.count()
+    else:
+       num_avail_tickets = 0
+    qty_range = range(1, num_avail_tickets + 1)
+
     return render(request, 'packages/detail.html', {
-       'package': package
+       'package': package,
+       'date': date,
+       'num_avail_tickets': num_avail_tickets,
+       'qty_range': qty_range,
     })

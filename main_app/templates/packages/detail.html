@@ -19,17 +19,43 @@
     </div>
 </section>
 
-<section class="detail-tickets">
-    <div class="qty-minus">
-        <button>-</button>
-    </div>
-    <div class="qty">
-        <p>ticket-qty</p>
-    </div>
-    <div class="qty-plus">
-        <button>+</button>
-    </div>
-    <div>Price</div>
-</section>
+{% if date %}
+    <section class="detail-tickets">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="qty">
+                <select name="qty" id="qty">
+                    {% for qty in qty_range %}
+                        <option value="{{ qty }}">{{ qty }}</option>
+                    {% endfor %}
+                </select>
+                <p>Tickets Available: {{ num_avail_tickets }}</p>
+            </div>
+            <div>Price:</div>
+            <p>${{ package.price }} per ticket</p>
+            <button type="submit">Purchase</button>
+        </form>
+    </section>
+{% else %}
+    <form action="{% url 'package_detail' package.id %}" method="GET">
+        <input type="date" name="date" id="date">
+        <button type="submit">Choose Date</button>
+    </form>
+{% endif %}
 
+<script>
+    const dateEl = document.getElementById('date');
+    const today = new Date();
+    const tomorrow = new Date(today.setDate(today.getDate() + 1));
+    M.Datepicker.init(dateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: tomorrow,
+        minDate: tomorrow,
+        setDefaultDate: true,
+        autoClose: true
+    });
+
+    const selectEl = document.getElementById('qty');
+    M.FormSelect.init(selectEl);
+</script>
 {% endblock %}
