@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Package Details</h1>
+
+<section>
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ package.name }}</span>
+            <p>Destination: {{ package.get_destination_display }}</p>
+            <p>Experiences: {{ package.experiences|linebreaks }}</p>
+            <p>Vendor: {{ package.get_vendor_display }}</p>
+            {% if package.max_tickets > 0 %}
+                <p>Available Tickets: {{ package.max_tickets }}</p>
+            {% else %}
+                <p style="color: red">Sold Out</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="detail-tickets">
+    <div class="qty-minus">
+        <button>-</button>
+    </div>
+    <div class="qty">
+        <p>ticket-qty</p>
+    </div>
+    <div class="qty-plus">
+        <button>+</button>
+    </div>
+    <div>Price</div>
+</section>
+
+{% endblock %}
