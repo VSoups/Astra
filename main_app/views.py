@@ -33,6 +33,7 @@ def packages_index(request):
     packages = Package.objects.filter(destination__icontains=dest_query) if dest_query else Package.objects.all()
     exp_query = request.GET.get('experience')
     packages = packages.filter(experiences__icontains=exp_query) if exp_query else packages
+    # searched_packages = packages.filter(reqeust.GET())
     
     # packages = Package.objects.all()
     return render(request, 'packages/index.html', {

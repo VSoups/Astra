@@ -24,3 +24,10 @@ button.submit-link:focus {
   background-color: transparent;
   outline: none;
 }
+
+.search-form {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  /* background: red;  */
+}
