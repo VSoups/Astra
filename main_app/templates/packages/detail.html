@@ -21,7 +21,7 @@
 
 {% if date %}
     <section class="detail-tickets">
-        <form action="" method="POST">
+        <form action="{% url 'add_ticket' package.id %}" method="POST">
             {% csrf_token %}
             <div class="qty">
                 <select name="qty" id="qty">
