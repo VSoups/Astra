@@ -45,15 +45,16 @@ def packages_index(request):
         experiences__icontains=exp_query) if exp_query else packages
     # searched_packages = packages.filter(reqeust.GET())
 
-    tickets_for_date = [package.ticket_set.filter(date=date, package=package) for package in packages]
+    tickets_for_date = [package.ticket_set.filter(
+        date=date, package=package) for package in packages]
     print(f'ticket amount: {tickets_for_date[1]}')
 
     def purchased_qty():
         # total_ticket = 0
         for ticket in tickets_for_date:
-            for t in ticket: 
+            for tk in ticket:
                 # print(t)
-                print(f'what ticket looks like: {t}')
+                print(f'what ticket looks like: {tk}')
             # total_ticket += ticket.qty
         return
 
