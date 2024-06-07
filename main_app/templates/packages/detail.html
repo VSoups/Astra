@@ -40,6 +40,7 @@
             </div>
             <div>Price:</div>
             <p>${{ package.price }} per ticket</p>
+            <input type="hidden" name="date" value="{{date}}">
             <button type="submit" {% if num_avail_tickets <= 0 %}disabled{% endif %}>Purchase</button>
         </form>
     </section>
