@@ -70,12 +70,13 @@ def add_ticket(request, pkg_id):
   # amt tickets purchased - from max tickets avail from pkg association.
   form = TicketForm(request.POST)
   print("Hello 1")
-  print(form)
+  # print(form)
   if form.is_valid():
     new_ticket = form.save(commit=False)
     new_ticket.qty = request.POST.get('qty')
-    new_ticket.package_id = pkg_id
-    new_ticket.user_id = request.User
+    new_ticket.package = Package.objects.get(id=pkg_id)
+    new_ticket.passenger = request.user
+    new_ticket.date = request.POST.get('date')
     print("Hello 2")
     print(f"New Ticket Object: {new_ticket}")
     new_ticket.save() 
