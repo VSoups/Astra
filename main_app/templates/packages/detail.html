@@ -31,6 +31,7 @@
                     {% for qty in qty_range %}
                             <option value="{{ qty }}">{{ qty }}</option>
                     {% endfor %}
+                    <option value="">hello world</option>
                 </select>
                 {% if num_avail_tickets > 0 %}
                     <p>Available Tickets: {{ num_avail_tickets }}</p>
@@ -40,30 +41,11 @@
             </div>
             <div>Price:</div>
             <p>${{ package.price }} per ticket</p>
-            <input type="hidden" name="date" value="{{date}}">
+            <!-- <input type="text" name="date" value="{{date}}"> -->
             <button type="submit" {% if num_avail_tickets <= 0 %}disabled{% endif %}>Purchase</button>
         </form>
     </section>
-{% else %}
-    <form action="{% url 'package_detail' package.id %}" method="GET">
-        <input type="date" name="date" id="date">
-        <button type="submit">Choose Date</button>
-    </form>
-{% endif %}
+{% endif %} 
 
-<script>
-    const dateEl = document.getElementById('date');
-    const today = new Date();
-    const tomorrow = new Date(today.setDate(today.getDate() + 1));
-    M.Datepicker.init(dateEl, {
-        format: 'yyyy-mm-dd',
-        defaultDate: tomorrow,
-        minDate: tomorrow,
-        setDefaultDate: true,
-        autoClose: true
-    });
 
-    const selectEl = document.getElementById('qty');
-    M.FormSelect.init(selectEl);
-</script>
 {% endblock %}
