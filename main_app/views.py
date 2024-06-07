@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Package, DESTINATIONS, Ticket
 from django.views.generic.edit import CreateView
 from .forms import TicketForm
-import random
+import random, functools
 
 # Create your views here.
 
@@ -45,8 +45,16 @@ def packages_index(request):
 def package_detail(request, pkg_id):
     package = Package.objects.get(id=pkg_id)
     date = request.GET.get('date')
+    ticket_list = package.ticket_set.all()
+    def purchased_tickets():
+      total_ticket_qty = 0
+      for ticket in ticket_list:
+        total_ticket_qty += ticket.qty
+      return total_ticket_qty
+    # print(f"Ticket total: {purchased_tickets()}")
     if date:
-       num_avail_tickets = package.max_tickets - package.ticket_set.count()
+       num_avail_tickets = package.max_tickets - purchased_tickets()
+      #  package.max_tickets = num_avail_tickets
     else:
        num_avail_tickets = 0
     qty_range = range(1, num_avail_tickets + 1)
@@ -61,10 +69,15 @@ def package_detail(request, pkg_id):
 def add_ticket(request, pkg_id):
   # amt tickets purchased - from max tickets avail from pkg association.
   form = TicketForm(request.POST)
+  print("Hello 1")
+  # print(form)
   if form.is_valid():
     new_ticket = form.save(commit=False)
-    new_ticket.package_id = pkg_id
-    new_ticket.user_id = request.User
+    new_ticket.qty = request.POST.get('qty')
+    new_ticket.package = Package.objects.get(id=pkg_id)
+    new_ticket.passenger = request.user
+    new_ticket.date = request.POST.get('date')
+    print("Hello 2")
+    print(f"New Ticket Object: {new_ticket}")
     new_ticket.save() 
-    print(new_ticket)
   return redirect('home')

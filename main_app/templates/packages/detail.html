@@ -10,11 +10,11 @@
             <p>Destination: {{ package.get_destination_display }}</p>
             <p>Experiences: {{ package.experiences|linebreaks }}</p>
             <p>Vendor: {{ package.get_vendor_display }}</p>
-            {% if package.max_tickets > 0 %}
-                <p>Available Tickets: {{ package.max_tickets }}</p>
+            <!-- {% if num_avail_tickets > 0 %}
+                <p>Available Tickets: {{ num_avail_tickets }}</p>
             {% else %}
                 <p style="color: red">Sold Out</p>
-            {% endif %}
+            {% endif %} -->
         </div>
     </div>
 </section>
@@ -25,15 +25,22 @@
             {% csrf_token %}
             <div class="qty">
                 <select name="qty" id="qty">
+                    {% if num_avail_tickets <= 0 %}
+                        <option>0</option>
+                    {% endif %}
                     {% for qty in qty_range %}
-                        <option value="{{ qty }}">{{ qty }}</option>
+                            <option value="{{ qty }}">{{ qty }}</option>
                     {% endfor %}
                 </select>
-                <p>Tickets Available: {{ num_avail_tickets }}</p>
+                {% if num_avail_tickets > 0 %}
+                    <p>Available Tickets: {{ num_avail_tickets }}</p>
+                {% else %}
+                    <p style="color: red">Sold Out</p>
+                {% endif %}
             </div>
             <div>Price:</div>
             <p>${{ package.price }} per ticket</p>
-            <button type="submit">Purchase</button>
+            <button type="submit" {% if num_avail_tickets <= 0 %}disabled{% endif %}>Purchase</button>
         </form>
     </section>
 {% else %}
