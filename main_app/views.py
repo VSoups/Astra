@@ -54,7 +54,7 @@ def package_detail(request, pkg_id):
     # print(f"Ticket total: {purchased_tickets()}")
     if date:
        num_avail_tickets = package.max_tickets - purchased_tickets()
-      #  package.max_tickets = num_avail_tickets
+       package.max_tickets = num_avail_tickets
     else:
        num_avail_tickets = 0
     qty_range = range(1, num_avail_tickets + 1)
