@@ -49,6 +49,7 @@ class Package(models.Model):
 
 class Ticket(models.Model):
     date = models.DateField('Departure Date')
+    qty = models.IntegerField(default=1)
     passenger = models.ForeignKey(User, on_delete=models.CASCADE)
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
     # request.user.ticket_set.all => ticket.package.<attribute>
