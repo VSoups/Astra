@@ -18,8 +18,8 @@
           <p>Destination: {{ package.get_destination_display }}</p>
           <p>Experiences: {{ package.experiences|linebreaks }}</p>
           <p>Vendor: {{ package.get_vendor_display }}</p>
-          {% if package.max_tickets > 0 %}
-            <p>Available Tickets: {{ package.max_tickets }}</p>
+          {% if package.num_tickets_avail_for_date > 0 %}
+            <p>Available Tickets: {{ package.num_tickets_avail_for_date }}</p>
           {% else %}
             <p style="color: red">Sold Out</p>
           {% endif %}

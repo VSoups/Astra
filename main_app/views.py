@@ -45,22 +45,30 @@ def packages_index(request):
         experiences__icontains=exp_query) if exp_query else packages
     # searched_packages = packages.filter(reqeust.GET())
 
-    tickets_for_date = [package.ticket_set.filter(
-        date=date, package=package) for package in packages]
-    print(f'ticket amount: {tickets_for_date[1]}')
+    # add num_tickets_avail_for_date attribute to each package
+    for p in packages:
 
-    def purchased_qty():
-        # total_ticket = 0
-        for ticket in tickets_for_date:
-            for tk in ticket:
-                # print(t)
-                print(f'what ticket looks like: {tk}')
-            # total_ticket += ticket.qty
-        return
+        p.num_tickets_avail_for_date = p.get_num_tickets_avail_for_date(date)
+        print(f'{p.name}: {p.num_tickets_avail_for_date}')
 
-    # purchased_qty = functools.reduce(lambda total, ticket: total + ticket.qty, ticket_amount)
-    # print(f'total tickets added: : {purchased_qty}')
-    print(f'total tickets added: : {purchased_qty()}')
+    '''
+        tickets_for_date = [package.ticket_set.filter(
+            date=date, package=package) for package in packages]
+        print(f'ticket amount: {tickets_for_date[1]}')
+
+        def purchased_qty():
+            # total_ticket = 0
+            for ticket in tickets_for_date:
+                for tk in ticket:
+                    # print(t)
+                    print(f'what ticket looks like: {tk}')
+                # total_ticket += ticket.qty
+            return
+
+        # purchased_qty = functools.reduce(lambda total, ticket: total + ticket.qty, ticket_amount)
+        # print(f'total tickets added: : {purchased_qty}')
+        print(f'total tickets added: : {purchased_qty()}')
+    '''
 
     # packages = Package.objects.all()
     return render(request, 'packages/index.html', {
@@ -73,31 +81,39 @@ def package_detail(request, pkg_id, picked_date):
     package = Package.objects.get(id=pkg_id)
     # date = request.GET.get('date')
     date = picked_date
-    ticket_list = package.ticket_set.all()
+    # ticket_list = package.ticket_set.all()
 
-    def purchased_tickets():
-        total_ticket_qty = 0
-        for ticket in ticket_list:
-            total_ticket_qty += ticket.qty
-        return total_ticket_qty
-    # print(f"Ticket total: {purchased_tickets()}")
+    '''
+        def purchased_tickets():
+            total_ticket_qty = 0
+            for ticket in ticket_list:
+                total_ticket_qty += ticket.qty
+            return total_ticket_qty
+        # print(f"Ticket total: {purchased_tickets()}")
+    '''
 
-    num_avail_tickets = package.max_tickets - purchased_tickets()
-    package.max_tickets = num_avail_tickets
+    package.num_tickets_avail_for_date = package.get_num_tickets_avail_for_date(
+        date)
 
-    qty_range = range(1, num_avail_tickets + 1)
+    # num_avail_tickets = package.max_tickets - purchased_tickets()
+    # package.max_tickets = num_avail_tickets
+
+    qty_range = range(1, package.num_tickets_avail_for_date + 1)
     # print(f'selection option number range: {list(qty_range)}')
 
     return render(request, 'packages/detail.html', {
         'package': package,
         'date': date,
-        'num_avail_tickets': num_avail_tickets,
+        'num_avail_tickets': package.num_tickets_avail_for_date,
         'qty_range': qty_range,
     })
 
 
 def add_ticket(request, pkg_id):
     form = TicketForm(request.POST)
+    # date = request.GET.get('date')
+    # print(f'form before if: {form}')
+    # print(f'form date before if: {date}')
     if form.is_valid():
         new_ticket = form.save(commit=False)
         new_ticket.qty = request.POST.get('qty')
