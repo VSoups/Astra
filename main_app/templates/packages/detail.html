@@ -31,7 +31,6 @@
                     {% for qty in qty_range %}
                             <option value="{{ qty }}">{{ qty }}</option>
                     {% endfor %}
-                    <option value="">hello world</option>
                 </select>
                 {% if num_avail_tickets > 0 %}
                     <p>Available Tickets: {{ num_avail_tickets }}</p>
@@ -41,11 +40,16 @@
             </div>
             <div>Price:</div>
             <p>${{ package.price }} per ticket</p>
-            <!-- <input type="text" name="date" value="{{date}}"> -->
+            <input type="hidden" name="date" value="{{date}}">
             <button type="submit" {% if num_avail_tickets <= 0 %}disabled{% endif %}>Purchase</button>
         </form>
     </section>
 {% endif %} 
 
+
+<script>
+    const selectEl = document.getElementById('qty');
+    M.FormSelect.init(selectEl);
+</script>
 
 {% endblock %}

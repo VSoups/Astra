@@ -23,7 +23,8 @@ DESTINATIONS = (
 class Package(models.Model):
     name = models.CharField(max_length=100)
     # date = models.DateField('Departure Date')
-    price = models.DecimalField(max_digits=10, decimal_places=2)   # volume/bulk discount here
+    # volume/bulk discount here
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     destination = models.CharField(
         max_length=2, choices=DESTINATIONS, default=[0][0])
     experiences = models.TextField(max_length=1000)
@@ -46,6 +47,13 @@ class Package(models.Model):
     # def get_absolute_url(self):
     #     return reverse('detail', kwargs={'package_id': self.id})
 
+    # Add this instance method that uses the aggregate() method and models.Sum() to sum the qty field
+    def get_num_tickets_avail_for_date(self, date):
+        ticket_count = self.ticket_set.filter(
+            date=date).aggregate(models.Sum('qty'))['qty__sum']
+        
+        return self.max_tickets - ticket_count if ticket_count else self.max_tickets
+
 
 class Ticket(models.Model):
     date = models.DateField('Departure Date')
@@ -57,3 +65,17 @@ class Ticket(models.Model):
 
 # review - user
 # package  - ticket (via user )
+
+
+'''
+class Purchase(models.Model):
+    name = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return f'{self.name} ({self.id})'
+
+    # Add this instance method that uses the aggregate() method and models.Sum() to sum the qty field
+    def get_num_tickets_avail_for_date(self, date):
+        ticket_count = self.ticket_set.filter(date=date).aggregate(models.Sum('qty'))['qty__sum']
+        return self.max_tickets - ticket_count if ticket_count else self.max_tickets
+'''
