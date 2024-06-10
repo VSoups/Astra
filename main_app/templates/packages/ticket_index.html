@@ -31,7 +31,7 @@
                     <span class="red-text text-lighten-1"><p>Date: {{ ticket.date }}</p></span>
                     <p>Quantity: {{ ticket.qty }}</p>
                     <p>Vendor: {{ ticket.package.get_vendor_display }}</p>
-                    <a href="">Review your trip</a>
+                    <a href="{% url 'reviews_create' ticket.package.id %}">Review your trip</a>
                 </div>
             </div>
         {% endfor %}

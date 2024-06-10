@@ -9,4 +9,8 @@ urlpatterns = [
     path('packages/<int:pkg_id>/<str:picked_date>/', views.package_detail, name='package_detail'),
     path('tickets/<int:pkg_id>/add_ticket/', views.add_ticket, name='add_ticket'),
     path('tickets/history/', views.ticket_index, name='ticket_index'),
+    path('reviews/<int:pkg_id>/create/', views.ReviewCreate.as_view(), name='reviews_create'),
+    path('reviews/<int:pkg_id>/', views.ReviewList.as_view(), name='reviews_index'),
+    path('reviews/<int:pkg_id>/update/', views.ReviewUpdate.as_view(), name='reviews_update'),
+    path('reviews/<int:pkg_id>/delete/', views.ReviewDelete.as_view(), name='reviews_delete'),
 ]

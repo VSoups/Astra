@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from .models import Package, DESTINATIONS, Ticket
-from django.views.generic.edit import CreateView
+from .models import Package, DESTINATIONS, Review
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import TicketForm
 from django.utils import timezone
-from datetime import date
-import random
-import functools
 
 # Create your views here.
 
@@ -139,3 +139,24 @@ def ticket_index(request):
         'past_tickets': past_tickets,
         'upcoming_tickets': upcoming_tickets,
     })
+
+class ReviewList(LoginRequiredMixin, ListView):
+  model = Review
+
+class ReviewCreate(LoginRequiredMixin, CreateView):
+  model = Review
+  fields = ['content', 'rating']
+
+  def form_valid(self, form):
+    form.instance.user = self.request.user
+    form.instance.package = self.request.package
+    # form.instance.package_id = self.request.package
+    return super().form_valid(form)
+
+class ReviewUpdate(LoginRequiredMixin, UpdateView):
+  model = Review
+  fields = ['content', 'rating']
+
+class ReviewDelete(LoginRequiredMixin, DeleteView):
+  model = Review
+  success_url = '/reviews/<int:pkg_id>'
