@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Order History</h1>
+
+<!-- <form action="{% url 'index' %}?date=" method="GET">
+  <label for="">Pick a date</label>
+  <input type="date" name="date" id="date">
+  <button type="submit">Choose Date</button>
+</form> -->
+<section class="ticket-columns">
+    <div class="upcoming">
+        <h4>Upcoming Trips</h4>
+        {% for ticket in upcoming_tickets %}
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">{{ ticket.package.name }}</span>
+                    <span class="red-text text-lighten-1"><p>Date: {{ ticket.date }}</p></span>
+                    <p>Quantity: {{ ticket.qty }}</p>
+                    <p>Vendor: {{ ticket.package.get_vendor_display }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="previous">
+        <h4>Previous Trips</h4>
+        {% for ticket in past_tickets %}
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">{{ ticket.package.name }}</span>
+                    <span class="red-text text-lighten-1"><p>Date: {{ ticket.date }}</p></span>
+                    <p>Quantity: {{ ticket.qty }}</p>
+                    <p>Vendor: {{ ticket.package.get_vendor_display }}</p>
+                    <a href="">Review your trip</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+
+<!-- <script>
+  const dateEl = document.getElementById('date');
+  const today = new Date();
+  const tomorrow = new Date(today.setDate(today.getDate() + 1));
+  M.Datepicker.init(dateEl, {
+      format: 'yyyy-mm-dd',
+      defaultDate: tomorrow,
+      minDate: tomorrow,
+      setDefaultDate: true,
+      autoClose: true
+  });
+
+  const selectEl = document.getElementById('qty');
+  M.FormSelect.init(selectEl);
+</script> -->
+
+{% endblock %}

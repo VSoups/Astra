@@ -4,6 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Package, DESTINATIONS, Ticket
 from django.views.generic.edit import CreateView
 from .forms import TicketForm
+from django.utils import timezone
+from datetime import date
 import random
 import functools
 
@@ -13,6 +15,7 @@ import functools
 def home(request):
     experiences = Package.objects.all().values_list(
         'experiences', flat=True)[0:5]
+    print(request.user)
     return render(request, 'home.html', {'destinations': DESTINATIONS, 'experiences': experiences})
 
 
@@ -122,3 +125,17 @@ def add_ticket(request, pkg_id):
         new_ticket.date = request.POST.get('date')
         new_ticket.save()
     return redirect('home')
+
+def ticket_index(request):
+    # today = date.today()
+    today = timezone.now().date()
+    print(today)
+    user_tickets = request.user.ticket_set.all()
+    past_tickets = user_tickets.filter(date__lt=today)
+    print(past_tickets)
+    upcoming_tickets = user_tickets.filter(date__gte=today)
+    print(upcoming_tickets)
+    return render(request, 'packages/ticket_index.html', { 
+        'past_tickets': past_tickets,
+        'upcoming_tickets': upcoming_tickets,
+    })

@@ -24,6 +24,10 @@
                         <li><a href="{% url 'index' %}">Packages</a></li>
                         {% if user.is_authenticated %}
                           <li>
+                            <a href="{% url 'ticket_index' %}">Order History</a>
+                          </li>
+                          <li>Welcome, {{ user }}</li>
+                          <li>
                             <a href="#">
                               <form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}

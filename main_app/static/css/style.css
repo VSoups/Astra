@@ -31,3 +31,9 @@ button.submit-link:focus {
   align-items: center;
   /* background: red;  */
 }
+
+.ticket-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
