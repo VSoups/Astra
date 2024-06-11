@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from .models import Package, DESTINATIONS, Review
+from .models import Package, DESTINATIONS, Review, Photo
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic import ListView, DetailView
+from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import TicketForm
 from django.utils import timezone
+import boto3, os, uuid
 
 # Create your views here.
 
@@ -46,34 +47,10 @@ def packages_index(request):
     exp_query = request.GET.get('experience')
     packages = packages.filter(
         experiences__icontains=exp_query) if exp_query else packages
-    # searched_packages = packages.filter(reqeust.GET())
-
-    # add num_tickets_avail_for_date attribute to each package
+    
     for p in packages:
-
         p.num_tickets_avail_for_date = p.get_num_tickets_avail_for_date(date)
-        print(f'{p.name}: {p.num_tickets_avail_for_date}')
 
-    '''
-        tickets_for_date = [package.ticket_set.filter(
-            date=date, package=package) for package in packages]
-        print(f'ticket amount: {tickets_for_date[1]}')
-
-        def purchased_qty():
-            # total_ticket = 0
-            for ticket in tickets_for_date:
-                for tk in ticket:
-                    # print(t)
-                    print(f'what ticket looks like: {tk}')
-                # total_ticket += ticket.qty
-            return
-
-        # purchased_qty = functools.reduce(lambda total, ticket: total + ticket.qty, ticket_amount)
-        # print(f'total tickets added: : {purchased_qty}')
-        print(f'total tickets added: : {purchased_qty()}')
-    '''
-
-    # packages = Package.objects.all()
     return render(request, 'packages/index.html', {
         'packages': packages,
         'date': date
@@ -82,28 +59,11 @@ def packages_index(request):
 
 def package_detail(request, pkg_id, picked_date):
     package = Package.objects.get(id=pkg_id)
-    # date = request.GET.get('date')
     date = picked_date
-    # print(f'pakage detail date: {date}')
-    # ticket_list = package.ticket_set.all()
-
-    '''
-        def purchased_tickets():
-            total_ticket_qty = 0
-            for ticket in ticket_list:
-                total_ticket_qty += ticket.qty
-            return total_ticket_qty
-        # print(f"Ticket total: {purchased_tickets()}")
-    '''
-
     package.num_tickets_avail_for_date = package.get_num_tickets_avail_for_date(
         date)
 
-    # num_avail_tickets = package.max_tickets - purchased_tickets()
-    # package.max_tickets = num_avail_tickets
-
     qty_range = range(1, package.num_tickets_avail_for_date + 1)
-    # print(f'selection option number range: {list(qty_range)}')
 
     return render(request, 'packages/detail.html', {
         'package': package,
@@ -115,9 +75,6 @@ def package_detail(request, pkg_id, picked_date):
 
 def add_ticket(request, pkg_id):
     form = TicketForm(request.POST)
-    # date = request.GET.get('date')
-    # print(f'form before if: {form}')
-    # print(f'form date before if: {date}')
     if form.is_valid():
         new_ticket = form.save(commit=False)
         new_ticket.qty = request.POST.get('qty')
@@ -155,7 +112,6 @@ class ReviewCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.package_id = self.kwargs['pkg_id']
-        # form.instance.package_id = self.request.package
         return super().form_valid(form)
 
 
@@ -177,3 +133,24 @@ def like_review(request, pkg_id, review_id):
 def unlike_review(request, pkg_id, review_id):
     request.user.liked_reviews.remove(review_id)
     return redirect('reviews_index', pk=pkg_id)
+
+def add_photo(request, review_id):
+    # photo-file will be the "name" attribute on the <input type="file">
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        # need a unique "key" for S3 / needs image file extension too
+        # replacing photo name with unique id
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        # just in case something goes wrong
+        try:
+            bucket = os.environ['S3_BUCKET']
+            s3.upload_fileobj(photo_file, bucket, key)
+            # build the full url string
+            url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
+            # we can assign to cat_id or cat (if you have a cat object)
+            Photo.objects.create(url=url, review_id=review_id)
+        except Exception as e:
+            print('An error occurred uploading file to S3')
+            print(e)
+    return redirect('reviews_detail', pk=review_id)

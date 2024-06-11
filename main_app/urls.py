@@ -16,5 +16,6 @@ urlpatterns = [
     path('reviews/<int:pk>/delete/', views.ReviewDelete.as_view(), name='reviews_delete'),
     path('packages/<int:pkg_id>/reviews/<int:review_id>/liked', views.like_review, name='like_review'),
     path('packages/<int:pkg_id>/reviews/<int:review_id>/unliked', views.unlike_review, name='unlike_review'),
+    path('review/<int:review_id>/add_photo/', views.add_photo, name='add_photo'),
 ]
 

@@ -16,4 +16,16 @@
   </div>
 </div>
 
+<div class="carousel carousel-slider">
+  {% for photo in review.photo_set.all %}
+    <img class="responsive-img card-panel carousel-item" src="{{photo.url}}">
+  {% empty %}
+    <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+  {% endfor %}
+</div>
+
+<script>
+  M.AutoInit();
+</script>
+
 {% endblock %}
