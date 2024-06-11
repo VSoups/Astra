@@ -93,3 +93,6 @@ class Review(models.Model):
 class Photo(models.Model):
     url = models.CharField(max_length=200)
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['-id']

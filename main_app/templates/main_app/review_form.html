@@ -2,15 +2,24 @@
 {% block content %}
 
 {% if object %}
-<h1>Edit <span class="teal-text">{{object.name}}</span></h1>
-{% else %}
-<h1>Add Review</h1>
-{% endif %}
-<form action="" method="post">
-{% csrf_token %}
-  {{ form.as_p }}
+  <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
 
-<input type="submit" value="Submit!" class="btn">
+  <form action="{% url 'add_photo' object.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+    {% csrf_token %}
+    <input type="file" name="photo-file">
+    <br><br>
+    <button type="submit" class="btn">Upload Photo</button>
+  </form>
+{% else %}
+  <h1>Add Review</h1>
+{% endif %}
+
+
+
+<form action="" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Submit!" class="btn">
 </form>
 
 <script>
