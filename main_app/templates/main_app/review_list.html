@@ -4,7 +4,7 @@
 <h1>Review List</h1>
 
 
-{% for review in review_list %}
+{% for review in object.review_set.all %}
   <a href="{% url 'reviews_detail' review.id %}">
     <div class="card">
       <div class="card-content">
@@ -15,11 +15,15 @@
       </div>
 
       {% if user in review.likes.all %}
-      <p>Liked</p>
-      <form to unlike would go here>
+      <form action="{% url 'unlike_review' object.id review.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">❤️</button>
+      </form>
       {% else %}
-        <p>Not Liked</p>
-        <form to like would go here>
+      <form action="{% url 'like_review' object.id review.id %}" method="POST">
+          {% csrf_token %}
+          <button type="submit">♡</button>
+        </form>
       {% endif %}
       <p>Total Likes: {{review.likes.count}}</p>
 

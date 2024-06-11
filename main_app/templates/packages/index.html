@@ -5,7 +5,7 @@
 
 <form action="{% url 'index' %}?date=" method="GET">
   <label for="">Pick a date</label>
-  <input type="date" name="date" id="date">
+  <input type="date" name="date" id="date" value="{{ date }}">
   <button type="submit">Choose Date</button>
 </form>
 
@@ -35,7 +35,7 @@
   const tomorrow = new Date(today.setDate(today.getDate() + 1));
   M.Datepicker.init(dateEl, {
       format: 'yyyy-mm-dd',
-      defaultDate: tomorrow,
+      // defaultDate: tomorrow,
       minDate: tomorrow,
       setDefaultDate: true,
       autoClose: true

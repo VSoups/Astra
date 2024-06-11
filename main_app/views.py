@@ -129,27 +129,19 @@ def add_ticket(request, pkg_id):
 
 
 def ticket_index(request):
-    # today = date.today()
     today = timezone.now().date()
-    print(today)
     user_tickets = request.user.ticket_set.all()
     past_tickets = user_tickets.filter(date__lt=today)
-    print(past_tickets)
     upcoming_tickets = user_tickets.filter(date__gte=today)
-    print(upcoming_tickets)
     return render(request, 'packages/ticket_index.html', {
         'past_tickets': past_tickets,
         'upcoming_tickets': upcoming_tickets,
     })
 
 
-class ReviewList(LoginRequiredMixin, ListView):
-    model = Review
-    # template_name = "main_app/review_list.html"
-
-    # def get_queryset(self):
-    #     self.package = get_object_or_404(Package, name=self.kwargs["pkg_id"])
-    #     return Review.objects.filter(package=self.package)
+class ReviewsForPackage(LoginRequiredMixin, DetailView):
+    model = Package
+    template_name = "main_app/review_list.html"
 
 
 class ReviewDetail(LoginRequiredMixin, DetailView):
@@ -177,6 +169,11 @@ class ReviewDelete(LoginRequiredMixin, DeleteView):
     success_url = '/reviews/'
 
 
-def like_review(request, review_id):
+def like_review(request, pkg_id, review_id):
     request.user.liked_reviews.add(review_id)
-    return redirect('detail', review_id=review_id)
+    return redirect('reviews_index', pk=pkg_id)
+
+
+def unlike_review(request, pkg_id, review_id):
+    request.user.liked_reviews.remove(review_id)
+    return redirect('reviews_index', pk=pkg_id)
