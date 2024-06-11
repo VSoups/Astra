@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Review Detail</h1>
+
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">{{ review.user }}</span>
+    <p>Package: {{ review.package.name }}</p>
+    <p>Rating: {{ review.get_rating_display }}</p>
+    <p>Content: {{ review.content|linebreaks }}</p>
+  </div>
+  <div class="card-action">
+    <a href="{% url 'reviews_update' review.id %}">Edit</a>
+    <a href="{% url 'reviews_delete' review.id %}">Delete</a>
+  </div>
+</div>
+
+{% endblock %}

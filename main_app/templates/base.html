@@ -23,9 +23,9 @@
                         <li><a href="{% url 'about' %}">About</a></li>
                         <li><a href="{% url 'index' %}">Packages</a></li>
                         {% if user.is_authenticated %}
-                          <li>
-                            <a href="{% url 'ticket_index' %}">Order History</a>
-                          </li>
+                          <li><a href="{% url 'ticket_index' %}">Order History</a></li>
+                          <li><a href="{% url 'reviews_index' %}">Reviews</a></li>
+  
                           <li>Welcome, {{ user }}</li>
                           <li>
                             <a href="#">

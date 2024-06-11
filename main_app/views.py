@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Package, DESTINATIONS, Review
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import TicketForm
@@ -84,6 +84,7 @@ def package_detail(request, pkg_id, picked_date):
     package = Package.objects.get(id=pkg_id)
     # date = request.GET.get('date')
     date = picked_date
+    # print(f'pakage detail date: {date}')
     # ticket_list = package.ticket_set.all()
 
     '''
@@ -126,6 +127,7 @@ def add_ticket(request, pkg_id):
         new_ticket.save()
     return redirect('home')
 
+
 def ticket_index(request):
     # today = date.today()
     today = timezone.now().date()
@@ -135,28 +137,46 @@ def ticket_index(request):
     print(past_tickets)
     upcoming_tickets = user_tickets.filter(date__gte=today)
     print(upcoming_tickets)
-    return render(request, 'packages/ticket_index.html', { 
+    return render(request, 'packages/ticket_index.html', {
         'past_tickets': past_tickets,
         'upcoming_tickets': upcoming_tickets,
     })
 
+
 class ReviewList(LoginRequiredMixin, ListView):
-  model = Review
+    model = Review
+    # template_name = "main_app/review_list.html"
+
+    # def get_queryset(self):
+    #     self.package = get_object_or_404(Package, name=self.kwargs["pkg_id"])
+    #     return Review.objects.filter(package=self.package)
+
+
+class ReviewDetail(LoginRequiredMixin, DetailView):
+    model = Review
+
 
 class ReviewCreate(LoginRequiredMixin, CreateView):
-  model = Review
-  fields = ['content', 'rating']
+    model = Review
+    fields = ['content', 'rating']
 
-  def form_valid(self, form):
-    form.instance.user = self.request.user
-    form.instance.package = self.request.package
-    # form.instance.package_id = self.request.package
-    return super().form_valid(form)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.package_id = self.kwargs['pkg_id']
+        # form.instance.package_id = self.request.package
+        return super().form_valid(form)
+
 
 class ReviewUpdate(LoginRequiredMixin, UpdateView):
-  model = Review
-  fields = ['content', 'rating']
+    model = Review
+    fields = ['content', 'rating']
+
 
 class ReviewDelete(LoginRequiredMixin, DeleteView):
-  model = Review
-  success_url = '/reviews/<int:pkg_id>'
+    model = Review
+    success_url = '/reviews/'
+
+
+def like_review(request, review_id):
+    request.user.liked_reviews.add(review_id)
+    return redirect('detail', review_id=review_id)
