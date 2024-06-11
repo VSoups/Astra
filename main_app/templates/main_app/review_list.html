@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Review List</h1>
+
+
+{% for review in review_list %}
+  <a href="{% url 'reviews_detail' review.id %}">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ review.user }}</span>
+        <p>Package: {{ review.package.name }}</p>
+        <p>Rating: {{ review.get_rating_display }}</p>
+        <p>Content: {{ review.content|linebreaks }}</p>
+      </div>
+
+      {% if user in review.likes.all %}
+      <p>Liked</p>
+      <form to unlike would go here>
+      {% else %}
+        <p>Not Liked</p>
+        <form to like would go here>
+      {% endif %}
+      <p>Total Likes: {{review.likes.count}}</p>
+
+    </div>
+  </a>
+
+{% endfor %}
+
+
+{% endblock %}

@@ -9,8 +9,7 @@
 <form action="" method="post">
 {% csrf_token %}
   {{ form.as_p }}
-  <p>Hi, {{object.pkg_id}}</p>
-<!-- <input type="" name="package_id" value="{{object.package_id}}" placeholder="{{object.package_id}}"> -->
+
 <input type="submit" value="Submit!" class="btn">
 </form>
 
