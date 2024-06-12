@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Package, DESTINATIONS, Review, Photo
@@ -17,7 +18,10 @@ def home(request):
     experiences = Package.objects.all().values_list(
         'experiences', flat=True)[0:5]
     print(request.user)
-    return render(request, 'home.html', {'destinations': DESTINATIONS, 'experiences': experiences})
+    return render(request, 'home.html', {
+        'destinations': DESTINATIONS,
+        'experiences': experiences,
+        })
 
 
 def about(request):
@@ -41,22 +45,37 @@ def signup(request):
 
 def packages_index(request):
     date = request.GET.get('date')
-    dest_query = request.GET.get('destination')
-    packages = Package.objects.filter(
-        destination__icontains=dest_query) if dest_query else Package.objects.all()
-    exp_query = request.GET.get('experience')
-    packages = packages.filter(
-        experiences__icontains=exp_query) if exp_query else packages
+    search_query = request.GET.get('search_query')
+    if search_query:
+        for choice in DESTINATIONS:
+            if search_query.lower() in choice[1].lower():
+                dest = choice[0]
+                break
+        if not 'dest' in locals():
+            dest = None
+        packages = Package.objects.filter(Q(destination=dest) | Q(experiences__icontains=search_query))
+        dest_query = None
+        exp_query = None
+    else:
+        dest_query = request.GET.get('destination')
+        packages = Package.objects.filter(
+            destination__icontains=dest_query) if dest_query else Package.objects.all()
+        exp_query = request.GET.get('experience')
+        packages = packages.filter(
+            experiences__icontains=exp_query) if exp_query else packages
     
     for p in packages:
         p.num_tickets_avail_for_date = p.get_num_tickets_avail_for_date(date)
 
     return render(request, 'packages/index.html', {
         'packages': packages,
-        'date': date
+        'date': date,
+        'destination': dest_query,
+        'experience': exp_query,
+        'search_query':search_query,
     })
 
-
+@login_required
 def package_detail(request, pkg_id, picked_date):
     package = Package.objects.get(id=pkg_id)
     date = picked_date
@@ -72,7 +91,7 @@ def package_detail(request, pkg_id, picked_date):
         'qty_range': qty_range,
     })
 
-
+@login_required
 def add_ticket(request, pkg_id):
     form = TicketForm(request.POST)
     if form.is_valid():
@@ -84,7 +103,7 @@ def add_ticket(request, pkg_id):
         new_ticket.save()
     return redirect('home')
 
-
+@login_required
 def ticket_index(request):
     today = timezone.now().date()
     user_tickets = request.user.ticket_set.all()
@@ -124,16 +143,17 @@ class ReviewDelete(LoginRequiredMixin, DeleteView):
     model = Review
     success_url = '/reviews/'
 
-
+@login_required
 def like_review(request, pkg_id, review_id):
     request.user.liked_reviews.add(review_id)
     return redirect('reviews_index', pk=pkg_id)
 
-
+@login_required
 def unlike_review(request, pkg_id, review_id):
     request.user.liked_reviews.remove(review_id)
     return redirect('reviews_index', pk=pkg_id)
 
+@login_required
 def add_photo(request, review_id):
     # photo-file will be the "name" attribute on the <input type="file">
     photo_file = request.FILES.get('photo-file', None)
