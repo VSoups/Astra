@@ -17,11 +17,12 @@
 
 <section class="destination">
     <h4>Popular Destinations</h4>
-    <div class="carousel carousel-slider center" style="color: red">
-        {% for dest in destinations %}
-            <a class="carousel-item" href="{% url 'index' %}?destination={{ dest.0 }}">hello {{ dest.1 }}</a>
-        {% endfor %}
+    {% for dest in destinations %}
+    <div>
+        <a class="carousel-item" href="{% url 'index' %}?destination={{ dest.0 }}">{{ dest.1 }}</a>
+        <img src="/static/images/dest{{forloop.counter0}}.jpeg" alt="">
     </div>
+    {% endfor %}
 </section>
 
 <section class="experiences">

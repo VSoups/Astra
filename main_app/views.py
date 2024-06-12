@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import TicketForm
 from django.utils import timezone
-from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseForbidden
 import boto3, os, uuid
 
@@ -19,7 +18,6 @@ import boto3, os, uuid
 def home(request):
     experiences = Package.objects.all().values_list(
         'experiences', flat=True)[0:5]
-    print(request.user)
     return render(request, 'home.html', {
         'destinations': DESTINATIONS,
         'experiences': experiences,

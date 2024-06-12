@@ -37,3 +37,14 @@ button.submit-link:focus {
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
+
+#about-page {
+  display: flex;
+  justify-content: center;
+
+
+  > img {
+    max-width: 30%;
+    margin: 2rem;
+  }
+}
