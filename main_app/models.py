@@ -15,7 +15,7 @@ DESTINATIONS = (
     ('Mo', 'Moon'),
     ('Ma', 'Mars'),
     ('Pl', 'Pluto'),
-    ('Is', 'International Space Station'),
+    ('Is', 'International Space Station (ISS)'),
     ('Ne', 'Neptune'),
 )
 

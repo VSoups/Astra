@@ -3,9 +3,16 @@
 
 <h1>Package List</h1>
 
-<form action="{% url 'index' %}?date=" method="GET">
+<form action="{% url 'index' %}?date=&destination=&experience=&search_query=" method="GET">
   <label for="">Pick a date</label>
-  <input type="date" name="date" id="date" value="{{ date }}">
+  <input type="date" name="date" id="date" value="{{ date }}" required>
+  {% if destination %}
+    <input type="hidden" name="destination" value="{{ destination }}" required>
+  {% elif experience %}
+    <input type="hidden" name="experience" value="{{ experience }}" required>
+  {% elif search_query %}
+    <input type="hidden" name="search_query" value="{{ search_query }}" required>
+  {% endif %}
   <button type="submit">Choose Date</button>
 </form>
 
@@ -26,6 +33,8 @@
         </div>
       </div>
     </a>
+  {% empty %}
+    <h5>No packages match your search</h5>
   {% endfor %}
 {% endif %}
 
