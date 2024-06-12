@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import TicketForm
 from django.utils import timezone
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseForbidden
 import boto3, os, uuid
 
 # Create your views here.
@@ -132,16 +134,29 @@ class ReviewCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         form.instance.package_id = self.kwargs['pkg_id']
         return super().form_valid(form)
+    
+    success_url = '/tickets/history'
 
 
 class ReviewUpdate(LoginRequiredMixin, UpdateView):
     model = Review
     fields = ['content', 'rating']
 
+    def dispatch(self, request, *args, **kwargs):
+        review = self.get_object()
+        if review.user != request.user:
+            return HttpResponseForbidden("You are not allowed to edit this review.")
+        return super().dispatch(request, *args, **kwargs)
 
 class ReviewDelete(LoginRequiredMixin, DeleteView):
     model = Review
-    success_url = '/reviews/'
+    success_url = '/packages'
+
+    def dispatch(self, request, *args, **kwargs):
+        review = self.get_object()
+        if review.user != request.user:
+            return HttpResponseForbidden("You are not allowed to edit this review.")
+        return super().dispatch(request, *args, **kwargs)
 
 @login_required
 def like_review(request, pkg_id, review_id):

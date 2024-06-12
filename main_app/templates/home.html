@@ -5,7 +5,6 @@
 
 <section class="search">
     <form action="{% url 'index' %}?search_query=" method="get">
-        <!-- {% csrf_token %} -->
         <div class="input-field search-form" >
             <input id="search" name="search_query" type="search" required>
             <label class="label-icon" for="search"><i class="material-icons">Enter a destination or experience</i></label>
@@ -25,28 +24,6 @@
     </div>
 </section>
 
-<div class="carousel carousel-slider center">
-    <div class="carousel-fixed-item center">
-      <a class="btn waves-effect white grey-text darken-text-2">button</a>
-    </div>
-    <div class="carousel-item red white-text" href="#one!">
-      <h2>First Panel</h2>
-      <p class="white-text">This is your first panel</p>
-    </div>
-    <div class="carousel-item amber white-text" href="#two!">
-      <h2>Second Panel</h2>
-      <p class="white-text">This is your second panel</p>
-    </div>
-    <div class="carousel-item green white-text" href="#three!">
-      <h2>Third Panel</h2>
-      <p class="white-text">This is your third panel</p>
-    </div>
-    <div class="carousel-item blue white-text" href="#four!">
-      <h2>Fourth Panel</h2>
-      <p class="white-text">This is your fourth panel</p>
-    </div>
-</div>
-
 <section class="experiences">
     <h4>Popular Experiences</h4>
     <ul>
@@ -55,6 +32,7 @@
         {% endfor %}
     </ul>
 </section>
+
 
 <script>
     M.AutoInit();

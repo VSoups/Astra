@@ -4,7 +4,6 @@
 <h1>Package List</h1>
 
 <form action="{% url 'index' %}?date=&destination=&experience=&search_query=" method="GET">
-  <label for="">Pick a date</label>
   <input type="date" name="date" id="date" value="{{ date }}" required>
   {% if destination %}
     <input type="hidden" name="destination" value="{{ destination }}" required>
@@ -36,6 +35,8 @@
   {% empty %}
     <h5>No packages match your search</h5>
   {% endfor %}
+{% else %}
+    <h5>Pick a date</h5>
 {% endif %}
 
 <script>

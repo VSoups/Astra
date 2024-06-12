@@ -10,10 +10,12 @@
     <p>Rating: {{ review.get_rating_display }}</p>
     <p>Content: {{ review.content|linebreaks }}</p>
   </div>
+  {% if review.user == request.user %}
   <div class="card-action">
     <a href="{% url 'reviews_update' review.id %}">Edit</a>
     <a href="{% url 'reviews_delete' review.id %}">Delete</a>
   </div>
+  {% endif %}
 </div>
 
 <div class="carousel carousel-slider">

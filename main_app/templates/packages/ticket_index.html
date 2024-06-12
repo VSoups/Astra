@@ -3,11 +3,6 @@
 
 <h1>Order History</h1>
 
-<!-- <form action="{% url 'index' %}?date=" method="GET">
-  <label for="">Pick a date</label>
-  <input type="date" name="date" id="date">
-  <button type="submit">Choose Date</button>
-</form> -->
 <section class="ticket-columns">
     <div class="upcoming">
         <h4>Upcoming Trips</h4>
@@ -20,6 +15,8 @@
                     <p>Vendor: {{ ticket.package.get_vendor_display }}</p>
                 </div>
             </div>
+        {% empty %}
+            <h5>No upcoming trips</h5>
         {% endfor %}
     </div>
     <div class="previous">
@@ -34,6 +31,8 @@
                     <a href="{% url 'reviews_create' ticket.package.id %}">Review your trip</a>
                 </div>
             </div>
+        {% empty %}
+            <h5>No previous trips</h5>
         {% endfor %}
     </div>
 </section>
