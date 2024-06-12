@@ -35,24 +35,13 @@ RATING = (
 
 class Package(models.Model):
     name = models.CharField(max_length=100)
-    # date = models.DateField('Departure Date')
-    # volume/bulk discount here
     price = models.DecimalField(max_digits=10, decimal_places=2)
     destination = models.CharField(
         max_length=2, choices=DESTINATIONS, default=[0][0])
     experiences = models.TextField(max_length=1000)
-    # package <-> experience
     vendor = models.CharField(max_length=1, choices=VENDORS, default=[0][0])
-    # not to create additional joined table (User.ticket_set_all.all())
     users = models.ManyToManyField(User, through="Ticket")  # lazy
-    # do count package.ticket_set_all.count
     max_tickets = models.IntegerField(default=15)
-    # images/videos from api
-    # reviews model link 1:M
-    # tracking ticket number for certain date, no dates on the ticket model
-    # search result => all tickets available for that selected date
-    # date on the ticket detail page (Jim), user enter destination in search, output package in the view (max_ticket sold out rendering after compute)
-    # date (query param > route param)
 
     def __str__(self):
         return f'{self.name} ({self.id})'
@@ -84,7 +73,6 @@ class Review(models.Model):
 
     def get_absolute_url(self):
         return reverse('reviews_index')
-        # return reverse('reviews_index', kwargs={'pkg_id': self.package.id})
 
     class Meta:
         ordering = ['-id']
