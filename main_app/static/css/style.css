@@ -2,6 +2,7 @@ body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  background: linear-gradient(170deg, rgba(0,0,0,1) 0%, rgba(255,255,255,1) 48%, rgba(17,186,221,1) 95%);
 }
 
 main {
@@ -25,11 +26,46 @@ button.submit-link:focus {
   outline: none;
 }
 
-.search-form {
+h1 {
+  background: radial-gradient(circle, orange 25%, rgba(255,255,255,0) 75%);
+  padding: 0.5rem 0;
+  font-size: 5rem;
+}
+
+h1, h3, h4, h5, h6 {
+  text-align: center;
+}
+
+.astra-logo {
+  width: 3rem;
+  position: relative;
+  left: 6.25rem;
+  top: 0.75rem;
+}
+
+#about-page > img {
+  margin: 0 1rem;
+}
+
+.partner-box {
+  margin-top: 2rem;
+  > h6 {
+    margin-bottom: 0;
+  }
+}
+
+.search-form, .date-form {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  /* background: red;  */
+  border: 3px solid black;
+  background-color: snow;
+  padding: 2rem 5rem;
+}
+
+.input-field > label {
+  color: black;
 }
 
 .ticket-columns {
@@ -46,5 +82,313 @@ button.submit-link:focus {
   > img {
     max-width: 30%;
     margin: 2rem;
+    z-index: -1;
   }
+}
+
+.dest-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 1rem;
+}
+
+.home-dest {
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+
+  > .dest-img {
+    width: 25rem;
+    height: 25rem;
+  }
+  > a {
+    position: relative;
+    bottom: 5.3rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 25rem;
+    text-align: center;
+    padding: 1.5em 0;
+    font-size: larger;
+    color: white;
+  }
+
+  a:hover {
+    color: aqua;
+    background: radial-gradient(circle, rgba(0,0,0,0) 65%, rgba(255,255,255,0.5) 100%);
+  }
+}
+
+.home-dest:nth-child(4), .home-dest:nth-child(5) {
+  position: relative;
+  left: 13rem;
+}
+
+.experiences {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  ul {
+    background-color: snow;
+    border: 2px solid black;
+    border-radius: 5%;
+    line-height: 3rem;
+
+    li > a {
+      color: black;
+      padding: 0.5rem 2rem;
+    }
+
+    li > a:hover {
+      color: aqua;
+      background: radial-gradient(circle, rgba(0,0,0,1) 65%, rgba(255,255,255,1) 100%);
+    }
+  }
+}
+
+.idx-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.idx-card {
+  height: 15rem;
+  overflow: auto;
+  border: 3px solid black;
+  color: black;
+  background: linear-gradient(170deg, rgba(168,125,233,0.78) 33%, rgba(255,255,255,1) 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 0.75fr 1fr 0.5fr 1.5fr;
+
+  > span {
+    text-align: center;
+    grid-column: 1 / end;
+  }
+  span > p {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  > .dest {
+    text-align: center;
+    grid-column: 1 / end;
+    border-bottom: 2px solid black;
+    padding-bottom: 4px;
+  }
+  > .vend {
+    text-align: center;
+    grid-column: 1 / 2;
+    padding-top: 3px;
+    border-right: 2px solid black;
+  }
+  > .tkt {
+    padding-top: 3px;
+    text-align: center;
+  }
+  > .descr {
+    text-align: center;
+    grid-column: 1 / end;
+    grid-row-start: 4;
+  }
+  > .descr ~ p {
+    text-align: center;
+    grid-column: 1/ end;
+    grid-row-start: 5;
+  }
+}
+
+.pkg-detail {
+  width: 35rem;
+  margin: 1rem auto;
+}
+
+.pkg-detail-content {
+  margin: 0 auto;
+  width: 45rem;
+  display: grid;
+  grid-template-columns: 0.75fr 1fr;
+  column-gap: 5px;
+
+  > p {
+    font-size: 20px;
+  }
+}
+
+.detail-header {
+  font-weight: 700;
+}
+
+.detail-dest {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.detail-vend {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+.detail-exp {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+.detail-exp ~ p {
+  grid-column: 2 / 3;
+  grid-row: 2 / end;
+}
+
+.reviews-btn {
+  padding: 10px 0;
+  text-align: center;
+  display: block;
+  margin: 1rem auto;
+  padding: 10px 20px;
+  width: 7rem;
+  background-color: rgb(255, 182, 46);
+  border: 1px solid black;
+  border-radius: 5%;
+  color: black;
+}
+
+.reviews-btn:hover {
+  background-color: yellow;
+}
+
+.detail-tickets {
+  width: 35rem;
+  margin: 1.5rem auto;
+  background-color: rgba(255, 255, 255, 0.66);
+  padding: 20px 35px;
+  border: 3px solid black;
+}
+
+.detail-info {
+  display: grid;
+  grid-template-columns: 0.75fr 0.25fr 1fr;
+
+  > .price {
+    text-align: right;
+    padding-right: 3px;
+  }
+}
+
+.buy-btn {
+  display: block;
+  margin: 3px auto;
+  padding: 5px 10px;
+  border: 2px solid black;
+  border-radius: 5%;
+  background-color: rgb(0, 221, 0);
+}
+
+.buy-btn:hover {
+  background-color: rgb(67, 255, 67);
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.review-card {
+  overflow-x: auto;
+  border: 3px solid black;
+  color: black;
+  background: linear-gradient(170deg, rgba(168,125,233,0.78) 33%, rgba(255,255,255,1) 100%);
+}
+
+.like-btn {
+  padding-left: 10px;
+  position: relative;
+  left: 33.5rem;
+  bottom: 9.4rem;
+  width: max-content;
+  height: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
+  > form {
+    margin-right: 5px;
+  }
+  > form > button {
+    padding: 5px 10px;
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 35%;
+  }
+  > form > button:hover {
+    background-color: rgba(255, 255, 255, 1);
+  }
+}
+
+.rev-info {
+  display: grid;
+  grid-template-columns: 0.75fr 0.25fr 1fr;
+  row-gap: 10px;
+  background: rgba(0, 0, 0, 0);
+
+  .card-title {
+    grid-column: 1 / end;
+  }
+  .rev-pkg {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+  .rev-rtg {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+  }
+  .rev-con {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    text-align: right;
+    padding-right: 5px;
+  }
+  .rev-con ~ p {
+    grid-column: 3 / 4;
+    grid-row: 2 / end;
+  }
+}
+
+.card-header {
+  font-weight: 600;
+}
+
+.card-buttons > a {
+  background: rgba(0, 0, 0, 0.33);
+  padding: 5px 10px;
+  border-radius: 5%;
+}
+
+.card-buttons > a:hover {
+  background: rgba(0, 0, 255, 0.66);
+}
+
+.delete-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-form > * {
+  margin: 1rem 20px;
+}
+
+.rev-crud-form {
+  background-color: white;
+  padding: 10px 25px 20px;
+  border: 2px solid black;
+}
+
+.rev-photo-form {
+  border: 2px solid black;
 }

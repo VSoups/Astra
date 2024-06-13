@@ -3,15 +3,15 @@
 
 <h1>Review Detail</h1>
 
-<div class="card">
-  <div class="card-content">
-    <span class="card-title">{{ review.user }}</span>
-    <p>Package: {{ review.package.name }}</p>
-    <p>Rating: {{ review.get_rating_display }}</p>
-    <p>Content: {{ review.content|linebreaks }}</p>
+<div class="card review-card">
+  <div class="card-content rev-info">
+    <span class="card-title"><span class="card-header">User:</span> {{ review.user }}</span>
+    <p class="rev-pkg"><span class="card-header">Package:</span> {{ review.package.name }}</p>
+    <p class="rev-rtg"><span class="card-header">Rating:</span> {{ review.get_rating_display }}</p>
+    <p class="rev-con"><span class="card-header">Content:</span> {{ review.content|linebreaks }}</p>
   </div>
   {% if review.user == request.user %}
-  <div class="card-action">
+  <div class="card-action card-buttons">
     <a href="{% url 'reviews_update' review.id %}">Edit</a>
     <a href="{% url 'reviews_delete' review.id %}">Delete</a>
   </div>

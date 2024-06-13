@@ -4,7 +4,7 @@
 {% if object %}
   <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
 
-  <form action="{% url 'add_photo' object.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+  <form action="{% url 'add_photo' object.id %}" enctype="multipart/form-data" method="POST" class="card-panel rev-photo-form">
     {% csrf_token %}
     <input type="file" name="photo-file">
     <br><br>
@@ -16,7 +16,7 @@
 
 
 
-<form action="" method="post">
+<form class="rev-crud-form" action="" method="post">
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Submit!" class="btn">

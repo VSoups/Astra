@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js">
+    <link rel="shortcut icon" type="image/png" href="/static/images/astra_favi.png"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
@@ -18,29 +19,29 @@
             <div class="nav-wrapper">
                 <ul>
                     <li><a href="{% url 'home' %}" class="left brand-logo">&nbsp;&nbsp;Astra</a></li>
+                    <li><img src="/static/images/astra_logo.png" class="astra-logo" alt="logo"></li>
                 </ul>    
-                    <ul class="right">
-                        <!-- changes below -->
-                        <li><a href="{% url 'about' %}">About</a></li>
-                        <li><a href="{% url 'index' %}">Packages</a></li>
-                        {% if user.is_authenticated %}
-                          <li><a href="{% url 'ticket_index' %}">Order History</a></li>
-                          
-  
-                          <li>Welcome, {{ user }}</li>
-                          <li>
-                            <a href="#">
-                              <form method="post" action="{% url 'logout' %}">
-                                {% csrf_token %}
-                                <button type="submit" class="submit-link">Log Out</button>
-                              </form>
-                            </a>
-                          </li>
-                        {% else %}
-                          <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                          <li><a href="{% url 'login' %}">Log In</a></li>
-                        {% endif %}
-                      </ul>
+                <ul class="right">
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'index' %}">Packages</a></li>
+                    {% if user.is_authenticated %}
+                      <li><a href="{% url 'ticket_index' %}">Order History</a></li>
+                      
+
+                      <li>Welcome, {{ user }}</li>
+                      <li>
+                        <a href="#">
+                          <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-link">Log Out</button>
+                          </form>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                      <li><a href="{% url 'login' %}">Log In</a></li>
+                    {% endif %}
+                  </ul>
             </div>
         </nav>
     </header>
