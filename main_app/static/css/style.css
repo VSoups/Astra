@@ -392,3 +392,24 @@ h1, h3, h4, h5, h6 {
 .rev-photo-form {
   border: 2px solid black;
 }
+
+.review-photo-div {
+  position: relative;
+  width: max-content;
+  height: max-content;
+  background-color: transparent;
+}
+
+.review-photo {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  object-fit: contain;
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+}
+
+.nav-custom {
+  background-color: rgba(0,0,0,1);
+}
