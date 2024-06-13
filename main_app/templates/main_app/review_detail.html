@@ -20,7 +20,9 @@
 
 <div class="carousel carousel-slider">
   {% for photo in review.photo_set.all %}
-    <img class="responsive-img card-panel carousel-item" src="{{photo.url}}">
+    <div class="responsive-img card-panel carousel-item review-photo-div">
+      <img class="review-photo" src="{{photo.url}}">
+    </div>
   {% empty %}
     <div class="card-panel teal-text center-align">No Photos Uploaded</div>
   {% endfor %}
