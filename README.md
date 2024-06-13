@@ -2,7 +2,7 @@
 
   # ASTRA
 
-  ### [CLICK TO DEMO]()
+  ### [CLICK TO DEMO](https://astra-100-1741e87c1ee3.herokuapp.com/)
 
   ##### Vincent Kubota, Yeshi, Chris Sakae
 
