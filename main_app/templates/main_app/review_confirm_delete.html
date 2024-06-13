@@ -5,9 +5,9 @@
 
   <h4>Are you sure you want to delete ?</h4>
 
-  <form action="" method="POST">
+  <form action="" method="POST" class="delete-form">
     {% csrf_token %}
     <input type="submit" value="Yes - Delete!" class="btn">
-    <a href="{% url 'index' %}">Cancel</a>
+    <a class="btn" href="{% url 'index' %}">Cancel</a>
   </form>
 {% endblock %}

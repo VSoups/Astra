@@ -3,7 +3,7 @@
 
 <h1>Package List</h1>
 
-<form action="{% url 'index' %}?date=&destination=&experience=&search_query=" method="GET">
+<form class="date-form" action="{% url 'index' %}?date=&destination=&experience=&search_query=" method="GET">
   <input type="date" name="date" id="date" value="{{ date }}" required>
   {% if destination %}
     <input type="hidden" name="destination" value="{{ destination }}" required>
@@ -12,28 +12,30 @@
   {% elif search_query %}
     <input type="hidden" name="search_query" value="{{ search_query }}" required>
   {% endif %}
-  <button type="submit">Choose Date</button>
+  <button class="btn waves-effect waves-light" type="submit">Choose Date</button>
 </form>
 
 {% if date %}
-  {% for package in packages %}
-    <a href="{% url 'package_detail' package.id date %}">
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">{{ package.name }}</span>
-          <p>Destination: {{ package.get_destination_display }}</p>
-          <p>Experiences: {{ package.experiences|linebreaks }}</p>
-          <p>Vendor: {{ package.get_vendor_display }}</p>
-          {% if package.num_tickets_avail_for_date > 0 %}
-            <p>Available Tickets: {{ package.num_tickets_avail_for_date }}</p>
-          {% else %}
-            <p style="color: red">Sold Out</p>
-          {% endif %}
+  <section class="idx-list">
+    {% for package in packages %}
+      <a href="{% url 'package_detail' package.id date %}">
+        <div class="card">
+          <div class="card-content idx-card">
+            <span class="card-title"><p>{{ package.name }}</p></span>
+            <p class="dest">{{ package.get_destination_display }}</p>
+            <p class="vend">{{ package.get_vendor_display }}</p>
+            {% if package.num_tickets_avail_for_date > 0 %}
+              <p class="tkt">Tickets: {{ package.num_tickets_avail_for_date }}</p>
+            {% else %}
+              <p class="tkt" style="color: red">Sold Out</p>
+            {% endif %}
+            <p class="descr">Description: {{ package.experiences|linebreaks }}</p>
+          </div>
         </div>
-      </div>
-    </a>
-  {% empty %}
+      </a>
+    {% empty %}
     <h5>No packages match your search</h5>
+  </section>
   {% endfor %}
 {% else %}
     <h5>Pick a date</h5>

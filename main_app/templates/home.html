@@ -6,8 +6,7 @@
 <section class="search">
     <form action="{% url 'index' %}?search_query=" method="get">
         <div class="input-field search-form" >
-            <input id="search" name="search_query" type="search" required>
-            <label class="label-icon" for="search"><i class="material-icons">Enter a destination or experience</i></label>
+            <input id="search" name="search_query" type="search" placeholder="Enter a destination or experience" required>
             <button class="btn waves-effect waves-light" type="submit" name="action">Submit
                 <i class="material-icons right"></i>
             </button>  
@@ -17,12 +16,14 @@
 
 <section class="destination">
     <h4>Popular Destinations</h4>
-    {% for dest in destinations %}
-    <div>
-        <a class="carousel-item" href="{% url 'index' %}?destination={{ dest.0 }}">{{ dest.1 }}</a>
-        <img src="/static/images/dest{{forloop.counter0}}.jpeg" alt="">
-    </div>
-    {% endfor %}
+    <section class="dest-links">
+        {% for dest in destinations %}
+        <div class="home-dest">
+            <img src="/static/images/dest{{forloop.counter0}}.jpeg" class="dest-img" alt="destination-image">
+            <a href="{% url 'index' %}?destination={{ dest.0 }}">{{ dest.1 }}</a>
+        </div>
+        {% endfor %}
+    </section>
 </section>
 
 <section class="experiences">

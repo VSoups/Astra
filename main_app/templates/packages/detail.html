@@ -1,26 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Package Details</h1>
+<h1>{{ package.name }}</h1>
 
-<section>
-    <div class="card">
-        <div class="card-content">
-            <span class="card-title">{{ package.name }}</span>
-            <p>Destination: {{ package.get_destination_display }}</p>
-            <p>Experiences: {{ package.experiences|linebreaks }}</p>
-            <p>Vendor: {{ package.get_vendor_display }}</p>
-            <!-- {% if num_avail_tickets > 0 %}
-                <p>Available Tickets: {{ num_avail_tickets }}</p>
-            {% else %}
-                <p style="color: red">Sold Out</p>
-            {% endif %} -->
-        </div>
-    </div>
-</section>
+<div class="pkg-detail-content">
+    <p class="detail-dest"><span class="detail-header">Destination:</span> {{ package.get_destination_display }}</p>
+    <p class="detail-vend"><span class="detail-header">Vendor:</span> {{ package.get_vendor_display }}</p>
+    <p class="detail-exp"><span class="detail-header">Experiences:</span> {{ package.experiences|linebreaks }}</p>
+</div>
 
-
-<a href="{% url 'reviews_index' package.id %}">Reviews</a>
+<a href="{% url 'reviews_index' package.id %}" class="reviews-btn">Reviews</a>
 
 {% if date %}
     <section class="detail-tickets">
@@ -35,16 +24,18 @@
                             <option value="{{ qty }}">{{ qty }}</option>
                     {% endfor %}
                 </select>
+            </div>
+            <div class="detail-info">
                 {% if num_avail_tickets > 0 %}
                     <p>Available Tickets: {{ num_avail_tickets }}</p>
                 {% else %}
                     <p style="color: red">Sold Out</p>
                 {% endif %}
+                <p class="price">Price:</p>
+                <p>${{ package.price }} per ticket</p>
+                <input type="hidden" name="date" value="{{date}}">
             </div>
-            <div>Price:</div>
-            <p>${{ package.price }} per ticket</p>
-            <input type="hidden" name="date" value="{{date}}">
-            <button type="submit" {% if num_avail_tickets <= 0 %}disabled{% endif %}>Purchase</button>
+            <button class="buy-btn" type="submit" {% if num_avail_tickets <= 0 %}disabled{% endif %}>Purchase</button>
         </form>
     </section>
 {% endif %} 
