@@ -15,27 +15,31 @@
 ## :camera_flash: Screenshots
 
    <h3 align="center">Home Page</h3>  <img
-    src=""
+    src="main_app/static/images/Homepage.png"
     width="700"
  
-   <h3 align="center">Sign Up/Login</h3>  <img
-    src=""
+   <h3 align="center">Sign Up</h3>  <img
+    src="main_app/static/images/Signup.png"
+    width="700"
+
+   <h3 align="center">Login</h3>  <img
+    src="main_app/static/images/Login.png"
     width="700"
   
    <h3 align="center">Package List</h3>  <img
-    src=""
+    src="main_app/static/images/Package List.png"
     width="700"
   
    <h3 align="center">Order History</h3>  <img
-    src=""
+    src="main_app/static/images/Order History.png"
     width="700"
   
    <h3 align="center">Reviews</h3>  <img
-    src=""
+    src="main_app/static/images/Review List.png"
     width="700"
   
    <h3 align="center">Review Details</h3>  <img
-    src=""
+    src="main_app/static/images/Review Detail.png"
     width="700"
   
 

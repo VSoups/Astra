@@ -72,7 +72,7 @@ class Review(models.Model):
         return (f'{self.user}: {self.content}')
 
     def get_absolute_url(self):
-        return reverse('reviews_index')
+        return reverse('reviews_detail', kwargs={'pk': self.id})
 
     class Meta:
         ordering = ['-id']
